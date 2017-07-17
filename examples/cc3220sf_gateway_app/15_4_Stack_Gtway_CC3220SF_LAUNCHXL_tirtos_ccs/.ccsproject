@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?ccsproject version="1.0"?>
+<projectOptions>
+	<ccsVersion value="7.0.0"/>
+	<deviceVariant value="Cortex M.CC3220SF"/>
+	<deviceFamily value="TMS470"/>
+	<deviceEndianness value="little"/>
+	<codegenToolVersion value="16.9.0.LTS"/>
+	<isElfFormat value="true"/>
+	<connection value="common/targetdb/connections/TIXDS110_Connection.xml"/>
+	<rts value="libc.a"/>
+	<createSlaveProjects value=""/>
+	<ignoreDefaultDeviceSettings value="true"/>
+	<templateProperties value="id=mqtt_client_CC3220SF_LAUNCHXL_tirtos_ccs.projectspec.mqtt_client_CC3220SF_LAUNCHXL_tirtos_ccs,buildProfile=release,isHybrid=true,"/>
+	<origin value="C:/Users/a0226081/Embedded_World/cc3220_cc13x0-gateway/CC3220_CC13x0Gateway/15_4_Stack_Gtway_CC3220SF_LAUNCHXL_tirtos_ccs"/>
+	<filesToOpen value=""/>
+	<isTargetManual value="false"/>
+</projectOptions>
