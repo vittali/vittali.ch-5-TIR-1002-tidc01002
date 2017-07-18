@@ -194,7 +194,6 @@ void appsrv_networkUpdate(bool restored, Llc_netInfo_t *networkInfo)
     pNwk->panId = networkInfo->devInfo.panID;
     pNwk->shortAddr = networkInfo->devInfo.shortAddress;
     memcpy(pNwk->extAddr, networkInfo->devInfo.extAddress, APIMAC_SADDR_EXT_LEN);
-    //TODO: Remove sec or modify api to receive sec
     pNwk->security_enable = CONFIG_SECURE;
     pNwk->mode = networkInfo->fh;
 

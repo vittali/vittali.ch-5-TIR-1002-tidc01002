@@ -762,9 +762,6 @@ uint8_t MtMac_dataReq(MtMac_dataReq_t *pData)
     sreqBuf += pData->DataLength;
     memcpy(sreqBuf, pData->IEPayload, pData->IELength);
 
-//*sreqBuf = pData->DataPayload;//ATTRSIZE: DataLengthTODO: couldnt parse attr length check CoP guide PARSE COMMAND MANUALLY
-
-//*sreqBuf = pData->IEPayload;//ATTRSIZE: IELengthTODO: couldnt parse attr length check CoP guide PARSE COMMAND MANUALLY
 
     Mt_sendCmd(&cmdDesc);
     free(cmdDesc.attrs);
@@ -1102,7 +1099,6 @@ uint8_t MtMac_securitySetReq(MtMac_securitySetReq_t *pData)
     sreqBuf++;
     memcpy(sreqBuf, pData->AttrValue, pData->AttrLen);
 
-//*sreqBuf = pData->Attribute;//ATTRSIZE: ALTODO: couldnt parse attr length check CoP guide PARSE COMMAND MANUALLY
 
     Mt_sendCmd(&cmdDesc);
     free(cmdDesc.attrs);
@@ -1503,7 +1499,7 @@ uint8_t MtMac_scanReq(MtMac_scanReq_t *pData)
     mtMsg_t cmdDesc;
     uint8_t *srspAttrBuf;
 
-    cmdDesc.len = 0x28; // hector
+    cmdDesc.len = 0x28; //
     cmdDesc.cmd0 = MT_CMD_SREQ | MT_MAC;
     cmdDesc.cmd1 = MAC_SCAN_REQ;
 
@@ -1630,7 +1626,6 @@ uint8_t MtMac_startReq(MtMac_startReq_t *pData)
     }
 
 
-//*sreqBuf = pData->IEIDList;//ATTRSIZE: NumIEsTODO: couldnt parse attr length check CoP guide PARSE COMMAND MANUALLY
 
     Mt_sendCmd(&cmdDesc);
     free(cmdDesc.attrs);
@@ -1876,7 +1871,6 @@ uint8_t MtMac_fhSetReq(MtMac_fhSetReq_t *pData)
     Util_bufferUint16(sreqBuf, pData->AttributeID);
     sreqBuf += 2;
     memcpy(sreqBuf, pData->Data, pData->AttrLen);
-//*sreqBuf = pData->Data;//ATTRSIZE: ALTODO: couldnt parse attr length check CoP guide PARSE COMMAND MANUALLY
 
     Mt_sendCmd(&cmdDesc);
     free(cmdDesc.attrs);

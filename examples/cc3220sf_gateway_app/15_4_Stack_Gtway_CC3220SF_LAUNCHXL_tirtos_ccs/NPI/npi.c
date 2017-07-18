@@ -97,10 +97,7 @@ int npiInit(const char *npiMqName)
     transportRegisterMq(&npiMqHandle);
     return ret;
 }
-//TODO:
-// allow multiple threads to register with npi client to receive npi messages
-// specify protocol/technology that you are registering for.
-// for example one task registers for 15.4 stack and anotherone registers for BLE
+
 void npiCliMqReg(const char *npiClientMq)
 {
     appRegisterMq = mq_open(npiClientMq, O_RDWR); // set to read write so we can flush srsps

@@ -115,7 +115,6 @@ int32_t transportWrite(uint8_t* buf, uint8_t len)
     int32_t writenBytes = 0;
 	if (uart != NULL)
 	{
-	    //TODO: check
 		// call TI-RTOS driver function
 	    writenBytes = UART_write(uart, (void*) buf, (size_t) len);
 	}
@@ -168,6 +167,5 @@ void transportReadCb(UART_Handle handle, void *buf, size_t count)
     npiReportReadMq.msgPtrLen = (int32_t)count;
     //incoming messages should have a higher priority
     // so NPI handles them before trying to send anything back to the CoP
-    // TODO: Check for mq return value in case queue is full
     mq_send(*readMq, (char*)&npiReportReadMq, sizeof(msgQueue_t), MQ_HIGH_PRIOR);
 }

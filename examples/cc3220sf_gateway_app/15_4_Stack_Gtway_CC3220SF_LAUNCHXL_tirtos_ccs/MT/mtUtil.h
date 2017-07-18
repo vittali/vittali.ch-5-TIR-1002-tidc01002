@@ -90,22 +90,9 @@ typedef struct
 {
     uint8_t Repeats;
     uint32_t Interval;
-    uint8_t *Data;//ATTRSIZE: DL
-//TODO: couldnt parse attr length check CoP guide PARSE COMMAND MANUALLY
+    uint8_t *Data;
 }MtUtil_utilLoopback_t;
-//typedef struct
-//{
-//    uint32_t Interval;
-//    uint8_t *Data;//ATTRSIZE: DL
-////TODO: couldnt parse attr length check CoP guide PARSE COMMAND MANUALLY
-//    uint8_t AREQ:;
-//    uint8_t Length;
-//    uint8_t =;
-//    uint8_t 0x05+DL;
-//    uint32_t Cmd0;
-//    uint8_t *=;//ATTRSIZE: DL
-////TODO: couldnt parse attr length check CoP guide PARSE COMMAND MANUALLY
-//}MtUtil_utilLoopbackSrsp_t;
+
 
 
 
@@ -113,6 +100,5 @@ typedef struct
 
 uint8_t MtUtil_callbackSubCmd(MtUtil_callbackSubCmd_t *pData, MtUtil_callbackSubCmdSrsp_t *pRspData);
 uint8_t MtUtil_utilGetExtAddr(MtUtil_utilGetExtAddr_t *pData, MtUtil_utilGetExtAddrSrsp_t *pRspData);
-//uint8_t MtUtil_utilLoopback(MtUtil_utilLoopback_t *pData, MtUtil_utilLoopbackSrsp_t *pRspData);
 uint8_t MtUtil_utilRandom(void);
 

@@ -140,8 +140,7 @@ typedef struct
 typedef struct
 {
     uint8_t Length;
-    uint8_t *Data;//ATTRSIZE: DL
-//TODO: couldnt parse attr length check CoP guide PARSE COMMAND MANUALLY
+    uint8_t *Data;
 }MtSys_nvReadReqSrsp_t;
 
 typedef struct
@@ -151,8 +150,7 @@ typedef struct
     uint16_t SubId;
     uint16_t Offset;
     uint8_t Length;
-    uint8_t *Data;//ATTRSIZE: DL
-//TODO: couldnt parse attr length check CoP guide PARSE COMMAND MANUALLY
+    uint8_t *Data;
 }MtSys_nvWriteReq_t;
 
 typedef struct
@@ -161,8 +159,7 @@ typedef struct
     uint16_t ItemID;
     uint16_t SubId;
     uint8_t Length;
-    uint8_t *Data;//ATTRSIZE: DL
-//TODO: couldnt parse attr length check CoP guide PARSE COMMAND MANUALLY
+    uint8_t *Data;
 }MtSys_nvUpdateReq_t;
 
 typedef struct

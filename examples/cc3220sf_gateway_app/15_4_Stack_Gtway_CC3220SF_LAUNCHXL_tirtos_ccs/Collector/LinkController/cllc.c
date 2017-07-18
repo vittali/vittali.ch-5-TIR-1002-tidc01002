@@ -1193,7 +1193,7 @@ static void maintainAssocTable(ApiMac_deviceDescriptor_t *pDevInfo,
         {
             /* insert one of the blank spaces in the table */
             pItem->shortAddr = pDevInfo->shortAddress;
-            memcpy(pItem->extAddr, pDevInfo->extAddress, APIMAC_SADDR_EXT_LEN); // hector
+            memcpy(pItem->extAddr, pDevInfo->extAddress, APIMAC_SADDR_EXT_LEN); //
             memcpy(&pItem->capInfo, pCapInfo, sizeof(ApiMac_capabilityInfo_t));
             pItem->rssi = rssi;
             pItem->status = status;
@@ -1549,7 +1549,6 @@ static void sendStartReq(bool startFH)
     startReq.mpmParams.offsetTimeSlot = CLLC_OFFSET_TIMESLOT;
     startReq.mpmParams.eBeaconOrder = CLLC_EBEACONORDER;
     startReq.mpmParams.NBPANEBeaconOrder = CLLC_NBPANEBEACONORDER;
-    //TODO: report bug numIEs was not initialized to 0
     startReq.mpmParams.numIEs = 0;
     startReq.mpmParams.pIEIDs = NULL;
 

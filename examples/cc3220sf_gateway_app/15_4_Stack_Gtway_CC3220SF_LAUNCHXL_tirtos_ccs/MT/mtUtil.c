@@ -160,66 +160,6 @@ uint8_t MtUtil_utilGetExtAddr(MtUtil_utilGetExtAddr_t *pData, MtUtil_utilGetExtA
     return srspStatus;
 }
 
-//uint8_t MtUtil_utilLoopback(MtUtil_utilLoopback_t *pData, MtUtil_utilLoopbackSrsp_t *pRspData)
-//{
-//    uint8_t srspStatus = MT_FAIL;
-//    mtMsg_t cmdDesc;
-//    uint8_t *srspAttrBuf;
-//
-//    cmdDesc.len = //[ERROR] MODIFY MANUALLY BAD LENGTH: 0x05+DL;
-//    cmdDesc.cmd0 = MT_CMD_SREQ | MT_UTIL;
-//    cmdDesc.cmd1 = MT_UTIL_LOOPBACK;
-//
-//    uint8_t *sreqBuf;
-//    cmdDesc.attrs = (uint8_t*)malloc(cmdDesc.len);
-//    sreqBuf = cmdDesc.attrs;
-//
-//    *sreqBuf = pData->Repeats;
-//    sreqBuf++;
-//    Util_bufferUint32(sreqBuf, pData->Interval);
-//    sreqBuf += 4;
-//
-////*sreqBuf = pData->Data;//ATTRSIZE: DL
-////TODO: couldnt parse attr length check CoP guide PARSE COMMAND MANUALLY
-//
-//    Mt_sendCmd(&cmdDesc);
-//    free(cmdDesc.attrs);
-//    if(Mt_rcvSrsp(&cmdDesc) == MT_SUCCESS)
-//    {
-//        if(cmdDesc.len > 0 && cmdDesc.attrs != NULL)
-//        {
-//            srspAttrBuf = cmdDesc.attrs;
-//
-//            srspStatus = *srspAttrBuf;
-//            srspAttrBuf++;
-//            pRspData->Repeats = *srspAttrBuf;
-//            srspAttrBuf++;
-//            pRspData->Interval = Util_parseUint32(srspAttrBuf);
-//            srspAttrBuf += 4;
-//            pRspData->Data = srspAttrBuf;
-//            srspAttrBuf += pRspData->DL;
-//            //*srspAttrBuf = pRspData->Data;//ATTRSIZE: DL
-////TODO: couldnt parse attr length check CoP guide PARSE COMMAND MANUALLY
-//            pRspData->AREQ: = *srspAttrBuf;
-//            srspAttrBuf++;
-//            pRspData->Length = *srspAttrBuf;
-//            srspAttrBuf++;
-//            pRspData->= = *srspAttrBuf;
-//            srspAttrBuf++;
-//            pRspData->0x05+DL = *srspAttrBuf;
-//            srspAttrBuf++;
-//            pRspData->Cmd0 = Util_parseUint32(srspAttrBuf);
-//            srspAttrBuf += 4;
-//            pRspData->= = srspAttrBuf;
-//            //*srspAttrBuf = pRspData->=;//ATTRSIZE: DL
-////TODO: couldnt parse attr length check CoP guide PARSE COMMAND MANUALLY
-//
-//            free(cmdDesc.attrs);
-//        }
-//    }
-//
-//    return srspStatus;
-//}
 
 uint8_t MtUtil_utilRandom(void)
 {

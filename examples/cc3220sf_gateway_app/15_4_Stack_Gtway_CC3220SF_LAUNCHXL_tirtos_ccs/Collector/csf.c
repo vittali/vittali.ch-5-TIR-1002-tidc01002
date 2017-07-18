@@ -56,7 +56,6 @@
 #include <Common/util.h>
 #include <Common/timer.h>
 #include "config.h"
-//TODO: Hector NV
 #include "nvoctp.h"
 
 #include <API_MAC/api_mac.h>
@@ -159,7 +158,6 @@ STATIC Clock_Struct configClkStruct;
 STATIC Clock_Handle configClkHandle;
 
 /* NV Function Pointers */
-//TODO: Hector NV
 static NVINTF_nvFuncts_t *pNV = NULL;
 
 
@@ -479,14 +477,11 @@ void Csf_stateChangeUpdate(Cllc_states_t state)
     {
         if(state == Cllc_states_joiningAllowed)
         {
-            /* Flash LED1 while allowing joining */
-            //TODO: Hector add state change code here
-            //Board_Led_control(board_led_type_LED1, board_led_state_BLINKING);
+            //TODO:   add state change code here
         }
         else if(state == Cllc_states_joiningNotAllowed)
         {
-            /* Don't flash when not allowing joining */
-            //Board_Led_control(board_led_type_LED1, board_led_state_ON);
+
         }
     }
     appsrv_stateChangeUpdate(state);
@@ -687,7 +682,6 @@ uint16_t Csf_getNumDeviceListEntries(void)
 {
     uint16_t numEntries = 0;
 
-    //TODO: Hector NV
     if(pNV != NULL)
     {
         NVINTF_itemID_t id;

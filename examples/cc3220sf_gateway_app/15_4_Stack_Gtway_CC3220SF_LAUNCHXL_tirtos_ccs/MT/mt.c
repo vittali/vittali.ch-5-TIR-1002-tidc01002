@@ -95,7 +95,7 @@ uint32_t mtProcessInCmd(uint8_t * data, uint32_t len)
         case MT_WAITING_SOF:
             if(len == MT_SOF_LEN && data[0] == MT_SOF)
             {
-                readBytes = MT_HDR_LEN; // TODO: if supporting Unified NPI modify this length
+                readBytes = MT_HDR_LEN;
                 rxState = MT_WAITING_HEADER;
             }
         break;
@@ -105,7 +105,6 @@ uint32_t mtProcessInCmd(uint8_t * data, uint32_t len)
             {
                 currentMtPacket = (uint8_t*)malloc((size_t)(MT_HDR_LEN + data[0]));
                 memcpy(currentMtPacket, data, MT_HDR_LEN);
-                //TODO: if supporting unified NPI then modify line below because unified uses 2 Byte length
                 readBytes = (uint32_t)(data[0] + MT_FCS_LEN);
                 rxState = MT_WAITING_DATA;
             }
@@ -131,7 +130,6 @@ uint32_t mtProcessInCmd(uint8_t * data, uint32_t len)
                 {
                     unsigned int prio = (currentMtPacket[1] & MT_CMD_TYPE_MASK) == MT_CMD_SRSP ? MQ_HIGH_PRIOR : MQ_LOW_PRIOR;
                     msgQueue_t clientReportMsg;
-                    //TODO: modify below if supporting multiple clients
                     clientReportMsg.event = CollectorEvent_PROCESS_NPI_CMD;
                     clientReportMsg.msgPtr = currentMtPacket;
                     clientReportMsg.msgPtrLen = (int32_t)(MT_HDR_LEN + currLen);
@@ -164,8 +162,7 @@ uint32_t mtProcessInCmd(uint8_t * data, uint32_t len)
                     currentMtPacket = NULL;
                 }
 
-                // TODO: something went wrong length does not match
-                // this should never happen add log here
+
             }
             //there is no break in this one intentionally since we need to go back to SOF state
         }

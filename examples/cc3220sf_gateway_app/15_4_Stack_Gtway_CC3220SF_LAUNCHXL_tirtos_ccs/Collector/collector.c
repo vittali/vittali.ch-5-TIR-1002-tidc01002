@@ -343,7 +343,6 @@ void collectorInit(const char *collectorMqName)
 
     MtSys_RegisterCbs(&mysysResetCbs);
 
-    //TODO: add return to check in gateway to see if it was successful
 
 
 }

@@ -348,8 +348,6 @@ uint8_t MtSys_nvReadReq(MtSys_nvReadReq_t *pData, MtSys_nvReadReqSrsp_t *pRspDat
             pRspData->Length = *srspAttrBuf;
             srspAttrBuf++;
             pRspData->Data = srspAttrBuf;
-            //*srspAttrBuf = pRspData->Data;//ATTRSIZE: DL
-//TODO: couldnt parse attr length check CoP guide PARSE COMMAND MANUALLY
 
             free(cmdDesc.attrs);
         }
@@ -383,7 +381,6 @@ uint8_t MtSys_nvWriteReq(MtSys_nvWriteReq_t *pData)
     *sreqBuf = pData->Length;
     sreqBuf++;
     memcpy(sreqBuf, pData->Data, pData->Length);
-//*sreqBuf = pData->Data;//ATTRSIZE: DLTODO: couldnt parse attr length check CoP guide PARSE COMMAND MANUALLY
 
     Mt_sendCmd(&cmdDesc);
     free(cmdDesc.attrs);
