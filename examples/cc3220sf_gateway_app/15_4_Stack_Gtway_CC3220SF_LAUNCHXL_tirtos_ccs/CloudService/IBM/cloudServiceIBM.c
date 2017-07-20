@@ -165,7 +165,7 @@ const char topicBaseStr[] = "iot-2/type/%s/id/%s/evt/%s/fmt/json";
 const char clienIdBaseStr[] = "g:%s:%s:%s";
 const char srvrBaseStr[] = "%s.messaging.internetofthings.ibmcloud.com";
 char topicList[TOPICS_NUM][MAX_TOPIC_LEN];
-#define CLIENTID_MAX_LEN 32
+#define CLIENTID_MAX_LEN 128
 #define IBM_SRVR_ADDR_MAC_LEN 70
 char ClientId[CLIENTID_MAX_LEN];
 char IBMServerAddress[IBM_SRVR_ADDR_MAC_LEN];
