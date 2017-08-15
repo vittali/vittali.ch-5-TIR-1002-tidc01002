@@ -72,7 +72,7 @@ char* jsonParseIn(char* payload_str, char* findToken)
         {
             tokenIdx++;
             tokenLen = tokens[tokenIdx].end-tokens[tokenIdx].start;
-            retToken = (char*)malloc(tokenLen);
+            retToken = (char*)malloc(tokenLen + 1);
             strncpy(retToken, payload_str + tokens[tokenIdx].start, tokenLen);
             retToken[tokenLen] = '\0';
             break;
