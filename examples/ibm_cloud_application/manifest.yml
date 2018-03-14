@@ -1,10 +1,10 @@
 applications:
 - path: .
-  memory: 128M
+  memory: 256M
   instances: 1
   domain: mybluemix.net
-  name: s2c-iot-gtway4
-  host: s2c-iot-gtway4
+  name: APP_NAME
+  host: APP_NAME
   disk_quota: 1024M
   services:
-  - s2cIoT_platform
+  - SERVICE_NAME

@@ -42,9 +42,15 @@ function Gateway() {
 	});
 
 	/* rcvd send toggle req */
-	webserver.on('devAction', function (data) {
-		/* send device Action request */
-		cloudclient.appC_sendDevAction(data);
+	webserver.on('sendToggle', function (data) {
+		/* send toggle request */
+		cloudclient.appC_sendToggle(data);
+	});
+
+	/* rcvd send buzzer ctrl req */
+	webserver.on('sendBuzzerCtrl', function (data) {
+		/* send buzzer ctrl request */
+		cloudclient.appC_sendBuzzerCtrl(data);
 	});
 
 	/* rcvd getDevArray Req */

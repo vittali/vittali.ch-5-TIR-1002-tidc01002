@@ -63,24 +63,24 @@ function NwkInfo(networkInfo) {
         /* set the security information */
         nwkInfo.securityEnabled = networkInfo.security_enabled;
         /* set network mode */
-        if (networkInfo.mode === "beacon") {
+        if (networkInfo.mode.toLowerCase() === "beacon") {
             nwkInfo.networkMode = "Beacon Enabled"
         }
-        else if (networkInfo.mode === "non-beacon") {
+        else if (networkInfo.mode.toLowerCase() === "non beacon") {
             nwkInfo.networkMode = "Non Beacon";
         }
-        else if (networkInfo.mode === "frequency hopping") {
+        else if (networkInfo.mode.toLowerCase() === "frequency hopping") {
             nwkInfo.networkMode = "Freq Hopping";
         }
         else {
             nwkInfo.networkMode = "Unknown Mode"
         }
         /* set network state */
-        
-        if(networkInfo.state === "waiting" || networkInfo.state === "starting" || networkInfo.state === "restoring" || networkInfo.state === "started" || networkInfo.state === "open" || networkInfo.state === "closed")
+
+        if(networkInfo.state === "waiting" || networkInfo.state === "starting" || networkInfo.state === "restoring" || networkInfo.state === "started" || networkInfo.state === "open" || networkInfo.state === "close")
         {
             nwkInfo.state = networkInfo.state;
-        } 
+        }
         else{
             /* Should not get here */
             console.log("ERROR: rcvd illegal coord state(NwkInfo)");
@@ -103,23 +103,23 @@ NwkInfo.prototype.updateNwkInfo = function (networkInfo) {
     };
     self.securityEnabled = networkInfo.security_enabled;
     /* set network mode */
-    if (networkInfo.mode === "beacon") {
+    if (networkInfo.mode.toLowerCase() === "beacon") {
         self.networkMode = "Beacon Enabled"
     }
-    else if (networkInfo.mode === "non-beacon") {
+    else if (networkInfo.mode.toLowerCase() === "non beacon") {
         self.networkMode = "Non Beacon";
     }
-    else if (networkInfo.mode === "frequency hopping") {
+    else if (networkInfo.mode.toLowerCase() === "frequency hopping") {
         self.networkMode = "Freq Hopping";
     }
     else {
         self.networkMode = "Unknown Mode"
     }
     /* set network state */
-        if(networkInfo.state === "waiting" || networkInfo.state === "starting" || networkInfo.state === "restoring" || networkInfo.state === "started" || networkInfo.state === "open" || networkInfo.state === "closed")
+        if(networkInfo.state === "waiting" || networkInfo.state === "starting" || networkInfo.state === "restoring" || networkInfo.state === "started" || networkInfo.state === "open" || networkInfo.state === "close")
         {
             self.state = networkInfo.state;
-        } 
+        }
         else{
             /* Should not get here */
             console.log("ERROR: rcvd illegal coord state(NwkInfo)");

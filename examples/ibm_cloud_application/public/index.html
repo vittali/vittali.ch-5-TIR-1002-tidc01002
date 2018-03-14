@@ -2,14 +2,14 @@
 <html lang="en">
 <!--
 /******************************************************************************
- 
+
 @file collectorApp.html
- 
+
 @brief front end file
- 
+
 Group: WCS LPC
 $Target Device: DEVICES $
- 
+
 ******************************************************************************
 $License: BSD3 2016 $
 ******************************************************************************
@@ -25,12 +25,12 @@ $Release Date: PACKAGE RELEASE DATE $
     head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="Suyash Jain">
- 
-    <title>TIMAC CollectorApp</title>
+
+    <title>Sensor-To-Cloud IBM Gateway</title>
     <!-- Bootstrap core CSS -->
     <link href="dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="dist/js/bootstrap.min.js"></script>
- 
+
     <style>
         /* Sets the device information block to scroll after
            set height */
@@ -45,30 +45,28 @@ $Release Date: PACKAGE RELEASE DATE $
     </style>
 
 </head>
- 
+
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#">TI Sensor2Cloud</a>
-        </div>
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="https://mybluemix.net">S2C Web Example</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
+          <a class="navbar-brand" href="#">TI 15.4-Stack Sensor-To-Cloud IBM Gateway</a>
+          <ul class="nav navbar-nav navbar-right">
             <!-- Button trigger modal -->
             <li><a class=" glyphicon glyphicon-cog" data-toggle="modal" data-target="#myModalNorm"></a></li>
-        </ul> 
+        </ul>
+        </div>
+
     </nav>
 
-    
+
     <!-- Modal -->
-    <div class="modal fade" id="myModalNorm" tabindex="-1" role="dialog" 
+    <div class="modal fade" id="myModalNorm" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <button type="button" class="close" 
+                    <button type="button" class="close"
                        data-dismiss="modal">
                            <span aria-hidden="true">&times;</span>
                            <span class="sr-only">Close</span>
@@ -77,10 +75,10 @@ $Release Date: PACKAGE RELEASE DATE $
                         IBM IoT Credentials
                     </h4>
                 </div>
-                
+
                 <!-- Modal Body -->
                 <div class="modal-body">
-                    
+
                     <form role="form">
                     <div class="form-group">
                         <label for="ServiceName">Service Name</label>
@@ -120,9 +118,9 @@ $Release Date: PACKAGE RELEASE DATE $
 
                       <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <input id="changeBtn" type="button" class="btn btn-primary" value = "Save changes" />
+                        <input id="changeBtn" type="button" class="btn btn-primary" value = "Save changes" data-dismiss="modal"/>
                       </div>
-                    </form> 
+                    </form>
                 </div>
             </div>
         </div>
@@ -132,10 +130,10 @@ $Release Date: PACKAGE RELEASE DATE $
     <!-- Main jumbotron -->
     <div class="jumbotron">
         <div class="container">
-            <h2>Sub 1G Sensor To Cloud</h2>
+            <h2>TI 15.4-Stack Gateway Example Application</h2>
         </div>
     </div>
- 
+
     <div class="container">
         <!--main data -->
         <div class="row">
@@ -176,7 +174,7 @@ $Release Date: PACKAGE RELEASE DATE $
                         </div>
                     </div>
                 </div>
- 
+
                 <div>
                     <div class="panel-group">
                         <div class="panel panel-default">
@@ -187,7 +185,7 @@ $Release Date: PACKAGE RELEASE DATE $
                     </div>
                 </div>
             </div>
- 
+
             <div class="col-md-8">
                 <!-- Device List Information Box -->
                 <div class="panel-group">
@@ -195,13 +193,10 @@ $Release Date: PACKAGE RELEASE DATE $
                         <div class="panel-heading">
                             <h4><b>Sensor Nodes</b></h4></div>
                         <table class="table table-hover table-responsive">
-                            <tr>
-                                <th>Short Address</th>
-                                <th>Ext Address</th>
-                                <th>Sensors Data</th>
-                                <th>RSSI</th>
-                                <th>Value</th>
-                                <th>Action</th>
+                            <tr >
+                                <th class="text-left">Device Info</th>
+                                <th class="text-center">Sensors Data</th>
+                                <th class="text-center">Toggle-Req</th>
                             </tr>
                         </table>
                         <div id="ConnectedDeviceWrapper">
@@ -225,7 +220,7 @@ $Release Date: PACKAGE RELEASE DATE $
 
 
        </div>
- 
+
         <footer>
             <p>&copy; 2016-17 Texas Instruments Incorporated.</p>
         </footer>
@@ -253,23 +248,23 @@ $Release Date: PACKAGE RELEASE DATE $
 
     <script>
 
-    $(function(){ 
+    $(function(){
 
     var devs = {};
     var socket = io.connect();
     /* Device table */
     var $deviceTable = $('#deviceTable');
- 
+
     /* Network Information Block */
     var $panid = $('#panid');
     var $coordAddr = $('#coordAddr');
     var $security = $('#security');
     var $networkmode = $('#networkmode');
- 
+
     /* connected device information */
     var connectedDeviceArray;
     var devArrayRequested = 0;
- 
+
     /* Request device list and newtork information on successful connection */
     socket.on('connect', function () {
         /* Request device array */
@@ -279,19 +274,21 @@ $Release Date: PACKAGE RELEASE DATE $
             devArrayRequested = 1;
         }
     });
- 
+
     /* Handling Newtork open close button */
     var $allowJoin = $('#allowJoin');
     var buttonTimer;
- 
+
+    var buzz_flag = [];
+
     /* Initialize network state button */
     $('.networkstate').hide();
- 
+
     /* callback function */
     function collectorApp_permitJoinButtonCb() {
         /* did not recieve a confirm to the request */
         clearInterval(buttonTimer);
- 
+
         if ($allowJoin.html() == "opening..") {
             /* need to retry */
             $allowJoin.html("open");
@@ -301,47 +298,47 @@ $Release Date: PACKAGE RELEASE DATE $
             $allowJoin.html("close");
         }
     }
- 
+
     /* Handle button press */
     $allowJoin.click(function () {
         if ($allowJoin.text() == "open") {
             /* network is open - lets close */
-            socket.emit('setJoinPermit', { action: 1 });
+            socket.emit('setJoinPermit', { action: 'open' });
             $allowJoin.html("opening..");
             buttonTimer = setInterval(collectorApp_permitJoinButtonCb, 2000);
         }
         else {
             /* network is closed - lets open */
-            socket.emit('setJoinPermit', { action: 0 });
+            socket.emit('setJoinPermit', { action: 'close' });
             $allowJoin.html("closing..");
             buttonTimer = setInterval(collectorApp_permitJoinButtonCb, 2000);
         }
     });
-   
 
-   
+
+
      /*********************************************************************
      * Plotting functions
      * *******************************************************************/
- 
+
      /* Initialize */
      var networkCanvas = document.getElementById('networkCanvas');
      var networkCanvasContext = networkCanvas.getContext('2d');
- 
+
     /* After getting the device array response plot the devices */
     function collectorApp_drawNetwork(devArray) {
         var width = networkCanvas.width;
         var height = networkCanvas.height;
- 
+
         /* erase the canvas */
         networkCanvasContext.clearRect(0, 0, width, height);
- 
+
         /* set canvas x/y to center */
         networkCanvasContext.translate(width / 2, height / 2);
- 
+
         /* variables used for plotting*/
         var x, y, r, s, angle, i;
- 
+
         /* draw central node -- panCoord
         set up pan-coord parameters */
         x = 0;
@@ -361,7 +358,7 @@ $Release Date: PACKAGE RELEASE DATE $
         for (i = 0; i < connectedDeviceArray.length; i++) {
             color = "grey";
             angle = 90 + (i * diff);
- 
+
             rssi = connectedDeviceArray[i].rssi;
             /* set parameters */
             /* scale RSSI for short range */
@@ -385,8 +382,8 @@ $Release Date: PACKAGE RELEASE DATE $
         /* set canvas x/y back to 0,0 */
         networkCanvasContext.translate(-(width / 2), -(height / 2));
     }
- 
- 
+
+
     /**********************************************************************
     Process incoming message from the server
     ***********************************************************************/
@@ -458,10 +455,10 @@ $Release Date: PACKAGE RELEASE DATE $
         connectedDeviceArray = JSON.parse(data);
         var len = connectedDeviceArray.length;
         var count;
- 
+
         /* Draw Network */
         collectorApp_drawNetwork(connectedDeviceArray);
- 
+
         for (count = 0; count < len; count++) {
             var devInfo = connectedDeviceArray[count];
             var sAddr;
@@ -471,30 +468,30 @@ $Release Date: PACKAGE RELEASE DATE $
             info is recieved just after join */
             var sensorDataFound = 0;
             var rssi;
-           
+
             if (devInfo.hasOwnProperty('rssi')){
                 rssi = devInfo.rssi;
             }
             else {
                 rssi = "--";
             }
- 
+
             /* Set the values to update */
             if (devInfo.hasOwnProperty('shortAddress')
                 && devInfo.hasOwnProperty('extAddress')) {
                 /* short address */
-                sAddr = devInfo.shortAddress;
+                sAddr = devInfo.shortAddress.slice(2);
                 /* Extended address */
-                extAddr = devInfo.extAddress;
+                extAddr = devInfo.extAddress.slice(2).toString(16);
 
             }
             else {
                 console.log("new device message missing required parameters");
                 continue;
             }
-            
+
             updateDevs(extAddr);
-            console.log(devInfo);
+
             /* Check supported sensors and get the values */
             if (devInfo.hasOwnProperty('humiditysensor')) {
                 sensorDataFound = 1;
@@ -510,7 +507,7 @@ $Release Date: PACKAGE RELEASE DATE $
 
                 sensorS += '<tr><td><img src="dist/images/Temperature.png " alt="some_text" height="30" width="30"></td><td>' + parseFloat(devInfo.temperaturesensor.ambienceTemp).toFixed(1) + '&deg;C</td></tr>';
             }
- 
+
             if (devInfo.hasOwnProperty('lightsensor')) {
                 sensorDataFound  = 1;
 
@@ -518,7 +515,7 @@ $Release Date: PACKAGE RELEASE DATE $
 
                 sensorS += '<tr><td><img src="dist/images/Light.png " alt="some_text" height="30" width="30"></td><td>' + devInfo.lightsensor.rawData + 'lux </td></tr>';
             }
-            
+
             if (devInfo.hasOwnProperty('doorlock')) {
                 sensorDataFound  = 1;
                 console.log("checking actuator status");
@@ -528,40 +525,89 @@ $Release Date: PACKAGE RELEASE DATE $
                 else if(devInfo.doorlock.value == 0){
                     sensorS += '<tr><td><img src="dist/images/Unlock.png " alt="some_text" height="30" width="30"></td><td>' + 'Unlocked </td></tr>';
                 }
-            } 
+            }
 
             if (devInfo.hasOwnProperty('fan')) {
                 sensorDataFound  = 1;
                 console.log("checking actuator status");
                 sensorS += '<tr><td><img src="dist/images/Fan.png " alt="some_text" height="30" width="30"></td><td>Speed: ' + devInfo.fan.value +'</td><tr>';
-            } 
+            }
+
+            if(devInfo.hasOwnProperty("pressuresensor")){
+                sensorDataFound = 1;
+                sensorS += '<tr><td><img src="dist/images/Pressure.png " alt="some_text" height="30" width="30"></td><td>' + Math.round(devInfo.pressuresensor.pressure) + ' Pa </td></tr>';
+            }
+
+            if (devInfo.hasOwnProperty('motionsensor')) {
+                sensorDataFound = 1;
+                //console.log("Motion: ", devInfo.motionsensor.isMotion);
+                if (devInfo.motionsensor.isMotion) {
+                    sensorS += '<tr><td><img src="dist/images/Motion.png" height="30" width="30"></td><td>' + 'Motion Detected' + '</td></tr>';
+                } else {
+                    sensorS += '<tr><td><img src="dist/images/No_Motion.png" height="30" width="30"></td><td>'+ 'No Motion' +'</td></tr>';
+                }
+
+            }
+
+            if (devInfo.hasOwnProperty('halleffectsensor')) {
+                sensorDataFound = 1;
+                //console.log("Door/Window isOpen: ",devInfo.halleffectsensor.isOpen);
+                if(devInfo.halleffectsensor.isOpen) {
+                    sensorS += '<tr><td><img src="dist/images/door_open.png" height="30" width="30"></td><td>' + 'Door/Window Open' + '</td></tr>';
+                } else {
+                    sensorS += '<tr><td><img src="dist/images/door.png" height="30" width="30"></td><td>' + 'Door/Window Closed' + '</td></tr>';
+                }
+            }
+
+            if (devInfo.hasOwnProperty('batterysensor')) {
+                sensorDataFound = 1;
+                //console.log("BatteryVoltage: ", devInfo.batterysensor.voltageValue);
+                if (devInfo.batterysensor.voltage > 2800)
+                {
+                    sensorS += '<tr><td><img src="dist/images/battery_full.png" height="30" width="30"></td><td>' + devInfo.batterysensor.voltage+ ' mV </td></tr>';
+                }
+                else if (devInfo.batterysensor.voltage > 2300)
+                {
+                    sensorS += '<tr><td><img src="dist/images/battery_half.png" height="30" width="30"></td><td>' + devInfo.batterysensor.voltage+ ' mV </td></tr>';
+                }
+                else
+                {
+                    sensorS += '<tr><td><img src="dist/images/battery_low.png" height="30" width="30"></td><td>' + devInfo.batterysensor.voltage+ ' mV </td></tr>';
+                }
+
+            }
+
+            if (devInfo.hasOwnProperty("waterleaksensor")) {
+                sensorDataFound = 1;
+                // console.log("WaterLeak Status: ", devInfo.waterleaksensor.isOpen);
+                if (devInfo.waterleaksensor.isOpen == 1) {
+                    sensorS += '<tr><td><img src="dist/images/water_leak.png" height="45" width="33"></td><td>' + 'Leak Detected' + '</td></tr>';
+                    buzz_flag[parseInt(sAddr)] = 1;
+                } else {                    
+                    sensorS += '<tr><td><img src="dist/images/no_leak.png" height="45" width="33"></td><td>' + 'No Leak' + '</td></tr>';
+                }
+            }
+
+            if (devInfo.hasOwnProperty('lastreported')) {
+                sensorDataFound = 1;
+                //console.log("Lastreported: ", devInfo.lastreported);
+                sensorS += '<tr><td><img src="dist/images/time.png" height="30" width="30"></td><td>' + devInfo.lastreported + '</td></tr>';
+            }
 
             if (sensorDataFound == 0)
             {
                 sensorS += "--";
             }
- 
+
             sensorS += '</table>';
- 
-            if (devInfo.hasOwnProperty('doorlock')) {
-                if(devInfo.doorlock.value == 1){
-                    /* add/update device information */ 
-                    $deviceTable.prepend('<tr><td>0x' + sAddr.toString(16).slice(2).toUpperCase()  +   '</td><td  class="ieee">0x' + extAddr.toString(16).slice(2).toUpperCase() + '</td><td>' + sensorS + '</td><td>' + rssi + '</td><td>' +  '</td><td>' + "<p button id=toggle type=button class='test btn btn-default'>Unlock" + "</p>"+'</td></tr>');
-                }
-                else if(devInfo.doorlock.value == 0){
-                    $deviceTable.prepend('<tr><td>0x' + sAddr.toString(16).slice(2).toUpperCase()  +  '</td><td  class="ieee">0x' + extAddr.toString(16).slice(2).toUpperCase() + '</td><td>' + sensorS + '</td><td>' + rssi + '</td><td>' +  '</td><td>'  +"<p button id=toggle type=button class='test btn btn-default'>Lock" + "</p>"+'</td></tr>');
-                }   
-            } 
 
-            else if(devInfo.hasOwnProperty('fan'))  {
-                /* add/update device information */
-                $deviceTable.prepend('<tr><td>0x' + sAddr.toString(16).slice(2).toUpperCase()  +  '</td><td  class="ieee">0x' + extAddr.toString(16).slice(2).toUpperCase() + '</td><td>' + sensorS + '</td><td>' + rssi + '</td><td>' + "<form name='aye'>" + "Speed <input id='Speed' name='Speed' type='number' value='" + devInfo.fan.value +"' step=1 min=0 max=10 /></form>" + '</td><td>' +"<p button type=button class='submit btn btn-default'>Submit </p>"  + '</td></tr>');
+            /* add/update device information */            
+			if(buzz_flag[parseInt(sAddr)] == 1){
+                $deviceTable.prepend('<tr><td><table class="table table-responsive"><tr><td>SAddr: 0x' + sAddr.toString(16) + '</td></tr><tr  class="ieee"><td>ExAddr: 0x' + extAddr.toString(16).toUpperCase() + '</td></tr><tr><td>RSSI: ' + rssi + ' dBm</td></tr></table></td><td>' + sensorS + '</td>><td>' + "<p button type=button class='test btn btn-default'>Red LED" + "<p button type=button class='buzzerctrl btn btn-default'>Turn Off Buzzer" + "</p>"+'</td></tr>');
             }
-
             else{
-                /* add/update device information */
-                $deviceTable.prepend('<tr><td>0x' + sAddr.toString(16).slice(2).toUpperCase()  +   '</td><td  class="ieee">0x' + extAddr.toString(16).slice(2).toUpperCase() + '</td><td>' + sensorS + '</td><td>' + rssi + '</td><td>' + "<p button type=button class='test btn btn-default'>ToggleLed" + "</p>" + '</td><td>' + "<p button type='button' class='graph btn btn-default btn-xs'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span>" + "</p>" + '</td></tr>');
-            }  
+                $deviceTable.prepend('<tr><td><table class="table table-responsive"><tr><td>SAddr: 0x' + sAddr.toString(16) + '</td></tr><tr  class="ieee"><td>ExAddr: 0x' + extAddr.toString(16).toUpperCase() + '</td></tr><tr><td>RSSI: ' + rssi + ' dBm</td></tr></table></td><td>' + sensorS + '</td>><td>' + "<p button type=button class='test btn btn-default'>Red LED" + '</td></tr>');
+            } 
 
             if (devInfo.active == 'true') {
                 /* active device */
@@ -571,28 +617,47 @@ $Release Date: PACKAGE RELEASE DATE $
             }
         }
     }
- 
+
  $deviceTable.on("click", "p.submit", function(){
     var speed =  $("#Speed").val();
-    var shortAddr = $(this).closest('tr').find('td:first').text();
-    socket.emit('devAction', {devActionType: 'updateFanSpeed', dstAddr: shortAddr, value: speed});
+    let data = $(this).closest('tr').find('td:first').text();
+    let n = data.indexOf("ExAddr");
+    let m = data.indexOf("0x");
+    var shortAddr = data.substring((m),(n));
+    socket.emit('sendToggle', {dstAddr: shortAddr, value: speed});
  });
 
   $deviceTable.on("click", "p.test", function(){
 
     var value = $('#toggle').text();
     console.log("value:" + value.toString());
-    var shortAddr = $(this).closest('tr').find('td:first').text();
+    let data = $(this).closest('tr').find('td:first').text();
+    let n = data.indexOf("ExAddr");
+    let m = data.indexOf("0x");
+    var shortAddr = data.substring((m),(n));
     console.log("addr:" + shortAddr.toString());
 
     if(value == "Lock"){
-        socket.emit('devAction', {devActionType: 'updateDoorLock', dstAddr: shortAddr, value: 1});
+        socket.emit('sendToggle', {dstAddr: shortAddr, value: 1});
     }
     else{
-        socket.emit('devAction', {devActionType: 'updateDoorLock', dstAddr: shortAddr, value: 0});
+        socket.emit('sendToggle', {dstAddr: shortAddr, devActionType: "sendToggle", value: 0});
     }
   });
- 
+
+  $deviceTable.on("click", "p.buzzerctrl", function(){
+        let data = $(this).closest('tr').find('td:first').text();
+        let n = data.indexOf("ExAddr");
+        let m = data.indexOf("0x");
+        var shortAddr = data.substring((m),(n));
+        console.log("Sending command to: ", shortAddr);
+        var sAddrr_int = parseInt(shortAddr.substring(2));
+        socket.emit('sendToggle', {dstAddr: shortAddr, devActionType: "leakBuzzOff", value: 2});
+        // hide the button after it is pressed, reset the buzzer control flag
+        $(this).hide();
+        buzz_flag[sAddrr_int] = 0;
+  });
+
   $deviceTable.on("click", "p.graph", function(){
 
         $('#humChart').empty();
@@ -615,26 +680,26 @@ $Release Date: PACKAGE RELEASE DATE $
         iluChart = devs[extAddr.text().toLowerCase()].ilu;
 
         if(humChart.length > 1){
-            $('#humChart').show();  
+            $('#humChart').show();
             var plot1 = $.jqplot('humChart', [humChart], {
             legend: {show:false},
             axes:{
               xaxis:{
-              tickOptions:{ 
+              tickOptions:{
                 angle: -30
               },
               tickRenderer:$.jqplot.CanvasAxisTickRenderer,
-                label:'Time', 
+                label:'Time',
               labelOptions:{
                 fontFamily:'Helvetica',
                 fontSize: '14pt'
               },
               labelRenderer: $.jqplot.CanvasAxisLabelRenderer
-              }, 
+              },
               yaxis:{
                 renderer:$.jqplot.LogAxisRenderer,
                 tickOptions:{
-                    labelPosition: 'middle', 
+                    labelPosition: 'middle',
                     angle:-30
                 },
                 tickRenderer:$.jqplot.CanvasAxisTickRenderer,
@@ -655,21 +720,21 @@ $Release Date: PACKAGE RELEASE DATE $
             legend: {show:false},
             axes:{
               xaxis:{
-              tickOptions:{ 
+              tickOptions:{
                 angle: -30
               },
               tickRenderer:$.jqplot.CanvasAxisTickRenderer,
-                label:'Time', 
+                label:'Time',
               labelOptions:{
                 fontFamily:'Helvetica',
                 fontSize: '14pt'
               },
               labelRenderer: $.jqplot.CanvasAxisLabelRenderer
-              }, 
+              },
               yaxis:{
                 renderer:$.jqplot.LogAxisRenderer,
                 tickOptions:{
-                    labelPosition: 'middle', 
+                    labelPosition: 'middle',
                     angle:-30
                 },
                 tickRenderer:$.jqplot.CanvasAxisTickRenderer,
@@ -683,7 +748,7 @@ $Release Date: PACKAGE RELEASE DATE $
             }
             });
         }
-        
+
 
         if(iluChart.length > 1){
             $('#iluChart').show();
@@ -691,21 +756,21 @@ $Release Date: PACKAGE RELEASE DATE $
             legend: {show:false},
             axes:{
               xaxis:{
-              tickOptions:{ 
+              tickOptions:{
                 angle: -30
               },
               tickRenderer:$.jqplot.CanvasAxisTickRenderer,
-                label:'Time', 
+                label:'Time',
               labelOptions:{
                 fontFamily:'Helvetica',
                 fontSize: '14pt'
               },
               labelRenderer: $.jqplot.CanvasAxisLabelRenderer
-              }, 
+              },
               yaxis:{
                 renderer:$.jqplot.LogAxisRenderer,
                 tickOptions:{
-                    labelPosition: 'middle', 
+                    labelPosition: 'middle',
                     angle:-30
                 },
                 tickRenderer:$.jqplot.CanvasAxisTickRenderer,
@@ -720,11 +785,11 @@ $Release Date: PACKAGE RELEASE DATE $
         });
         }
     });
- 
+
 
     /* Rcvd device array */
     socket.on('getdevArrayRsp', function (data) {
- 
+
         /* Check if the devices are connected */
         if(data) {
             /*update device information */
@@ -733,7 +798,7 @@ $Release Date: PACKAGE RELEASE DATE $
         /* Request network information */
         socket.emit('getNwkInfoReq');
     });
- 
+
     /* Rcvd network information */
     socket.on('nwkUpdate', function (data) {
         /* Check if the network is connected */
@@ -747,18 +812,18 @@ $Release Date: PACKAGE RELEASE DATE $
             /* exit */
             return false;
         }
- 		
+
         var nwkInfo = JSON.parse(data);
         $panid.text('0x' + nwkInfo.panCoord.panId.toString(16).slice(2).toUpperCase());
         $coordAddr.text('0x' + nwkInfo.panCoord.shortAddress.toString(16).slice(2).toUpperCase());
         $networkmode.text(nwkInfo.networkMode);
-        if (nwkInfo.securityEnabled == "yes") {
+        if (nwkInfo.securityEnabled === 1 ) {
             $security.text("Enabled");
         }
         else {
             $security.text("Disabled");
         }
-       
+
         /* Out of box example application does not
         support opening/closing the network in frequency hopping configuration */
         if(nwkInfo.networkMode == "Freq Hopping"){
@@ -766,8 +831,8 @@ $Release Date: PACKAGE RELEASE DATE $
             joins */
             $("#nwkInformationTable tbody tr.networkstate").hide();
         }
-               
-        
+
+
         /* Display Network State Information */
         if (nwkInfo.state == "started") {
             $("#nwkStateText").text("Network close for New Devices");
@@ -779,13 +844,13 @@ $Release Date: PACKAGE RELEASE DATE $
             $allowJoin.text("close");
             $('.networkstate').show();
         }
-        else if (nwkInfo.state == "closed") {
+        else if (nwkInfo.state == "close") {
             $("#nwkStateText").text("Network close for New Devices");
             $allowJoin.text("open");
             $('.networkstate').show();
         }
     });
- 
+
     /* Cloud Info Update */
     $("#changeBtn").click(function(){
 
@@ -808,7 +873,7 @@ $Release Date: PACKAGE RELEASE DATE $
     socket.on('connDevInfoUpdate', function (data) {
         collectorApp_updateNwkInfo(data);
     });
- 
+
     /* Rcvd permit join cnf */
     socket.on('permitJoinCnf', function (data) {
         clearInterval(buttonTimer);
@@ -818,7 +883,7 @@ $Release Date: PACKAGE RELEASE DATE $
                 $allowJoin.html("close");
             }
         }
-        else if(data == "closed"){
+        else if(data == "close"){
             if ($allowJoin.html() == "closing..") {
                 /* need to retry */
                 $allowJoin.html("open");
@@ -826,7 +891,7 @@ $Release Date: PACKAGE RELEASE DATE $
         }
 
     });
- 
+
     /* close connection */
     $(window).on('beforeunload', function(){
     socket.close();

@@ -196,30 +196,29 @@ function Cloudclient() {
     Functions to send messages to the app server
     *****************************************************************/
     /*!
-    * @brief        Send device action req message to application server
+    * @brief        Send Toggle LED req message to application server
     *
     * @param        none
     *
     * @return       none
     */
-    function appC_sendDevActionMsgToAppServer(data) {
+    function appC_sendToggleLedMsgToAppServer(data) {
 
-        // remove 0x from the address and then convert the hex value to decimal
+        // remove 0x from the address and then conver the hex value to decimal
         // var dstAddr = data.dstAddr.substring(2).toString(10);
         var dstAddr = data.dstAddr.toString();
-         console.log(data);
         console.log(dstAddr);
         // find the device index in the list
         var deviceIdx = findDeviceIndexShortAddr(dstAddr);
         if(deviceIdx != -1)
         {
-            // found the device information   
+            // found the device information
             var devDesc = {
                 panID: self.nwkInfo.panCoord.panId,
                 shortAddress: self.connectedDeviceList[deviceIdx].shortAddress,
                 extAddress: self.connectedDeviceList[deviceIdx].extAddress
             };
-        
+
         var myData = JSON.stringify(data);
         // appClient.publishDeviceCommand("device", self.connectedDeviceList[deviceIdx].extAddress.toString(16), "toggle", "json", '{"toggle":"true"}');
         console.log(myData);
@@ -228,6 +227,42 @@ function Cloudclient() {
        else{
             console.log("ERROR: rcvd sensor data message for non-existing device");
        }
+    }
+
+    /*****************************************************************
+    Functions to send messages to the app server
+    *****************************************************************/
+    /*!
+    * @brief        Send Buzzer Ctrl req message to application server
+    *
+    * @param        none
+    *
+    * @return       none
+    */
+    function appC_sendBuzzerCtrlMsgToAppServer(data) {
+        
+        // remove 0x from the address and then conver the hex value to decimal
+        // var dstAddr = data.dstAddr.substring(2).toString(10);
+        var dstAddr = data.dstAddr.toString();
+        console.log(dstAddr);
+        // find the device index in the list
+        var deviceIdx = findDeviceIndexShortAddr(dstAddr);
+        if(deviceIdx != -1)
+        {
+            // found the device information
+            var devDesc = {
+                panID: self.nwkInfo.panCoord.panId,
+                shortAddress: self.connectedDeviceList[deviceIdx].shortAddress,
+                extAddress: self.connectedDeviceList[deviceIdx].extAddress
+            };
+
+        var myData = JSON.stringify(data);
+        console.log(myData);
+        appClient.publishDeviceCommand(type, typeId, "deviceUpdate", "json", myData);
+        }
+        else{
+            console.log("ERROR: rcvd sensor data message for non-existing device");
+        }
     }
 
     function appC_setJoinPermitAtAppServer(data){
@@ -281,14 +316,25 @@ function Cloudclient() {
     }
 
     /*!
-    * @brief        Allows send device action command to a network device
+    * @brief        Allows send toggle command to a network device
     *
     * @param        none
     *
     * @return       none
     */
-    Cloudclient.prototype.appC_sendDevAction = function (data) {
-        appC_sendDevActionMsgToAppServer(data);
+    Cloudclient.prototype.appC_sendToggle = function (data) {
+        appC_sendToggleLedMsgToAppServer(data);
+    }
+
+    /*!
+    * @brief        Allows send buzzer ctrl command to a network device
+    *
+    * @param        none
+    *
+    * @return       none
+    */
+    Cloudclient.prototype.appC_sendBuzzerCtrl = function (data) {
+        appC_sendBuzzerCtrlMsgToAppServer(data);
     }
 
 
@@ -311,7 +357,7 @@ function Cloudclient() {
     * @return       none
     */
     Cloudclient.prototype.appC_setIBMCredentials = function (data) {
-    
+
         if(connected){
             appClient.disconnect();
             connected = false;
@@ -339,7 +385,7 @@ function Cloudclient() {
         type = data.type;
         typeId = data.typeId;
 
-        // subscribe to input events 
+        // subscribe to input events
         appClient.on("connect", function () {
             console.log("Connected");
             appClient.subscribeToDeviceEvents(type, typeId, "+");
@@ -364,19 +410,19 @@ function Cloudclient() {
         // deviceType "sensor" and eventType "update"
         appClient.on("deviceEvent", function(deviceType, deviceId, eventType, format, payload){
             var msg = JSON.parse(payload);
-            console.log("Message received: " + JSON.stringify(msg.d));
+            console.log("Message received: " + JSON.stringify(msg));
              switch (eventType) {
                     case "nwkUpdate":
-                        
-                        appC_processGetNwkInfoCnf(JSON.stringify(msg.d));
+
+                        appC_processGetNwkInfoCnf(JSON.stringify(msg));
                         break;
                     case "deviceUpdate":
-                        
-                        appC_processDeviceDataRxIndMsg(JSON.stringify(msg.d));
+
+                        appC_processDeviceDataRxIndMsg(JSON.stringify(msg));
                         break;
                     case "permitJoinCnf":
-                        
-                        appC_processDeviceDataRxIndMsg(JSON.stringify(msg.d));
+
+                        appC_processDeviceDataRxIndMsg(JSON.stringify(msg));
                         break;
                     default:
                         console.log("ERROR: appClient: CmdId not processed: ", payload.cmdID);

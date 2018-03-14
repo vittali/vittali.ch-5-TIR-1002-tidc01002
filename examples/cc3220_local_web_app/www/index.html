@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TI 15.4 Stack Gateway Start</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script>
+        function confirmRes() {
+            var a;
+            a = new XMLHttpRequest();
+            a.open("GET", "/param_cfg_result.txt", true);
+            a.send()
+        }
+
+        function checkRole() {
+            if (window.XMLHttpRequest) {
+                var a;
+                a = new XMLHttpRequest();
+                a.onreadystatechange = function() {
+                    if (a.readyState === XMLHttpRequest.DONE && a.status === 200) {
+                        switch (a.responseText) {
+                            case "Station":
+                                confirmRes();
+                                break;
+                        }
+                    }
+                }
+                a.open("GET", "/connectionInfo.txt", true);
+                a.send()
+            }
+        }
+
+        $(document).ready(function() {
+            // index
+            $('#setUpNwk').on('click', function(e) {
+                //confirmRes();
+				checkRole();
+                window.location.href = "network_info.html";
+            });
+            $('#gotoDashboard').on('click', function(e) {
+                //confirmRes();
+				checkRole();
+                window.location.href = "dashboard.html";
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <!-- wrapper -->
+    <div class="wrapper">
+        <div class="header"></div>
+        <!-- main Content -->
+        <div class="contentSplash">
+            <h2>15.4 Stack Embedded Sensor to Cloud</h2><br>
+            <div class="regButton" id="setUpNwk">Configure WiFi Network</div>
+            <div class="regButton" id="gotoDashboard">Sensor Dashboard</div>
+        </div>
+        <!-- end main Content -->
+    </div>
+    <!--end wrapper -->
+    <div style="clear:both;"></div>
+
+
+</body>
+
+</html>

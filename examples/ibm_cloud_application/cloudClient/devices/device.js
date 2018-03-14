@@ -120,7 +120,7 @@ Device.prototype.rxSensorData = function (sensorData) {
     }
 
     j = 0;
-    console.log(sensorData);
+
     if (sensorData.smart_objects.hasOwnProperty("doorlock")) {
         for (;;) {
             if(sensorData.smart_objects.doorlock.hasOwnProperty(j)){
@@ -135,9 +135,45 @@ Device.prototype.rxSensorData = function (sensorData) {
             j++;
         }
     }
-        
+
+    if(sensorData.smart_objects.hasOwnProperty("barometer")){
+        this.pressuresensor = {
+            pressure: sensorData.smart_objects.barometer[0].sensorValue
+        };
+    }
+
+    if(sensorData.smart_objects.hasOwnProperty("motion")){
+        this.motionsensor = {
+            isMotion: sensorData.smart_objects.motion[0].sensorValue
+        };
+    }
+
+    if(sensorData.smart_objects.hasOwnProperty("voltage")){
+        this.batterysensor = {
+            voltage: sensorData.smart_objects.voltage[0].sensorValue
+        };
+    }
+
+    if(sensorData.smart_objects.hasOwnProperty("halleffect")){
+        this.halleffectsensor = {
+            isOpen: sensorData.smart_objects.halleffect[0].sensorValue
+        };
+    }        
+
+    if(sensorData.smart_objects.hasOwnProperty("waterleak")){
+        this.waterleaksensor = {
+            isOpen: sensorData.smart_objects.waterleak[0].sensorValue
+        };
+    }
+
+    if(sensorData.smart_objects.hasOwnProperty("last_reported")){
+        /* time stanpd of last data recieved*/
+        this.lastreported = sensorData.smart_objects.last_reported;
+    }
     /* update rssi information */
     this.rssi = sensorData.rssi;
+
+    
 }
 
 
