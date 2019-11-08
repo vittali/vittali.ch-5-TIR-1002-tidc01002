@@ -3,8 +3,8 @@ applications:
   memory: 256M
   instances: 1
   domain: mybluemix.net
-  name: APP_NAME
-  host: APP_NAME
+  name: TIDC-01002
+  host: TIDC-01002
   disk_quota: 1024M
   services:
-  - SERVICE_NAME
+  - My-Node-RED-App-cloudantNoSQLDB
