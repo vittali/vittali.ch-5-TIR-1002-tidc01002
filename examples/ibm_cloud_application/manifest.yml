@@ -4,3 +4,5 @@ applications:
   instances: 1
   name: TIDC-01002
   disk_quota: 1024M
+  services:
+  - IoT-Orange
