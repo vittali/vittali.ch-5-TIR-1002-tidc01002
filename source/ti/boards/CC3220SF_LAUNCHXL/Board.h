@@ -42,7 +42,7 @@ extern "C" {
 #include <ti/drivers/I2C.h>
 #include <ti/drivers/I2S.h>
 #include <ti/drivers/PWM.h>
-#include <ti/drivers/SDSPI.h>
+//#include <ti/drivers/SDSPI.h>
 #include <ti/drivers/SD.h>
 #include <ti/drivers/SDFatFS.h>
 #include <ti/drivers/SPI.h>
