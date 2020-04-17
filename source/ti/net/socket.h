@@ -48,12 +48,19 @@ extern "C" {
 
 #elif defined(NET_SL)
 #include <ti/drivers/net/wifi/simplelink.h>
-#include <ti/drivers/net/wifi/bsd/sys/socket.h>
-#include <ti/drivers/net/wifi/bsd/sys/select.h>
-#include <ti/drivers/net/wifi/bsd/errno.h>
-#include <ti/drivers/net/wifi/bsd/netdb.h>
-#include <ti/drivers/net/wifi/bsd/netinet/in.h>
-#include <ti/drivers/net/wifi/bsd/arpa/inet.h>
+
+  //#include <ti/drivers/net/wifi/bsd/sys/socket.h>
+#include <ti/net/bsd/sys/socket.h>
+
+//#include <ti/drivers/net/wifi/bsd/sys/select.h>
+#include <ti/net/bsd/sys/select.h>
+
+
+//#include <ti/net/bsd/errno.h>
+#include <errno.h>
+#include <ti/net/bsd/netdb.h>
+#include <ti/net/bsd/netinet/in.h>
+#include <ti/net/bsd/arpa/inet.h>
 
 #elif defined(NET_NDK)
 #include <sys/socket.h>
